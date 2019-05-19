@@ -3,34 +3,39 @@ package com.elevenetc.motoalarm.features.signin
 import com.elevenetc.motoalarm.core.mvi.ViewIntent
 import com.elevenetc.motoalarm.core.user.UserManager
 import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 
 class SignInViewModel(
         private val userManager: UserManager
 ) {
 
-    val ps = BehaviorSubject.create<States>()
+    val intentsObserver = PublishSubject.create<ViewIntent>()
 
-    fun intent(intent: ViewIntent) {
+    val states = intentsObserver.flatMap {
 
-        if (intent is Intents.SignIn) {
-            ps.onNext(States.SignInProgress)
-            val signInObservable = userManager.signIn(intent.email, intent.password)
-                    .toObservable<States>()
 
-            signInObservable.subscribe(ps)
-
-//                    .subscribe({
-//                        ps.onNext(States.SignInSuccess)
-//                    }, {
-//                        ps.onNext(States.Error)
-//                    })
+        when (it) {
+            is Intents.SignIn -> Observable.concat(Observable.just(States.Progress),
+                    SignInUseCase(userManager).get(it.email, it.password)
+                            .toSingleDefault(States.Success)
+                            .cast(States::class.java)
+                            .toObservable()
+                            .onErrorReturn { States.Error }
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+            )
+            else -> throw RuntimeException("Not supported intent: $it")
         }
+    }
 
+    fun intent(intent: Observable<ViewIntent>) {
+        intent.subscribe(intentsObserver)
     }
 
     fun stateStream(): Observable<States> {
-        return ps.publish().autoConnect()
+        return states.cast(States::class.java)
     }
 
     sealed class Intents : ViewIntent() {
@@ -38,9 +43,8 @@ class SignInViewModel(
     }
 
     sealed class States {
-        object Idle : States()
-        object SignInProgress : States()
-        object SignInSuccess : States()
+        object Progress : States()
+        object Success : States()
         object Error : States()
     }
 }
