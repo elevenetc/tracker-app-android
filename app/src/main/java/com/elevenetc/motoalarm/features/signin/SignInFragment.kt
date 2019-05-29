@@ -9,13 +9,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import com.elevenetc.motoalarm.R
+import com.elevenetc.motoalarm.core.cache.KeyValueImpl
 import com.elevenetc.motoalarm.core.user.UserManagerImpl
 import com.elevenetc.motoalarm.core.utils.RxUtils
 
 
 class SignInFragment : Fragment() {
 
-    val viewModel = SignInViewModel(UserManagerImpl())
+    val viewModel = SignInViewModel(UserManagerImpl(KeyValueImpl(context!!)))
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_sign_in, container, false)

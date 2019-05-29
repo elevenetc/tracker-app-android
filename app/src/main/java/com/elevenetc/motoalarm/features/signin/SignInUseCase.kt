@@ -10,9 +10,7 @@ class SignInUseCase(
 ) : UseCase() {
     fun get(email: String, password: String): Completable {
         return Completable.fromAction {
-            Log.d("use case", "getting user")
-            Thread.sleep(2000)
-            Log.d("use case", "getting user - ok")
+
             userManager.signIn(email, password)
         }
     }
