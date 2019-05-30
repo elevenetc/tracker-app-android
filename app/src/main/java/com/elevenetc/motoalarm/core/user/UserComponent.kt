@@ -1,8 +1,15 @@
 package com.elevenetc.motoalarm.core.user
 
+import dagger.Provides
 import dagger.Subcomponent
 
-@Subcomponent
+@Subcomponent(modules = [UserComponent.UserModule::class])
 interface UserComponent {
-    fun usermanager(): UserManagerImpl
+
+    @dagger.Module
+    class UserModule {
+        @Provides
+        fun userManager(inst: UserManagerImpl): UserManager = inst
+    }
 }
+

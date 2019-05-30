@@ -1,7 +1,6 @@
 package com.elevenetc.motoalarm.features.signin
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,14 +8,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import com.elevenetc.motoalarm.R
-import com.elevenetc.motoalarm.core.cache.KeyValueImpl
-import com.elevenetc.motoalarm.core.user.UserManagerImpl
+import com.elevenetc.motoalarm.core.ui.BaseFragment
 import com.elevenetc.motoalarm.core.utils.RxUtils
 
 
-class SignInFragment : Fragment() {
+class SignInFragment : BaseFragment() {
 
-    val viewModel = SignInViewModel(UserManagerImpl(KeyValueImpl(context!!)))
+    lateinit var viewModel: SignInViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_sign_in, container, false)
@@ -27,6 +25,8 @@ class SignInFragment : Fragment() {
         val btnSignIn = view.findViewById<View>(R.id.btn_sing_in)
         val editEmail = view.findViewById<TextView>(R.id.edit_email)
         val editPassword = view.findViewById<TextView>(R.id.edit_password)
+
+        viewModel = appComponent.signIn().viewModel()
 
         viewModel.stateStream().subscribe {
             render(it)

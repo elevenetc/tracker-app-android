@@ -6,8 +6,9 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
+import javax.inject.Inject
 
-class SignInViewModel(
+class SignInViewModel @Inject constructor(
         private val userManager: UserManager
 ) {
 
