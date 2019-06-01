@@ -3,7 +3,9 @@ package com.elevenetc.motoalarm.core.app
 import android.content.Context
 import com.elevenetc.motoalarm.core.cache.KeyValue
 import com.elevenetc.motoalarm.core.cache.KeyValueImpl
-import com.elevenetc.motoalarm.core.navigation.MainActivityKeeper
+import com.elevenetc.motoalarm.core.navigation.ActivityKeeper
+import com.elevenetc.motoalarm.core.user.UserManager
+import com.elevenetc.motoalarm.core.user.UserManagerImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -22,7 +24,10 @@ class AppModule(private val context: Context) {
 
     @Provides
     @Singleton
-    fun mainActivity(): MainActivityKeeper {
-        return MainActivityKeeper()
+    fun mainActivity(): ActivityKeeper {
+        return ActivityKeeper()
     }
+
+    @Provides
+    fun userManager(inst: UserManagerImpl): UserManager = inst
 }

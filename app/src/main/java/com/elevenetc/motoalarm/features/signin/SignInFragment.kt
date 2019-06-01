@@ -14,7 +14,7 @@ import com.elevenetc.motoalarm.core.utils.RxUtils
 
 class SignInFragment : BaseFragment() {
 
-    lateinit var viewModel: SignInViewModel
+    private lateinit var viewModel: SignInViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_sign_in, container, false)
@@ -55,7 +55,7 @@ class SignInFragment : BaseFragment() {
             view!!.findViewById<TextView>(R.id.edit_email).isEnabled = false
             view!!.findViewById<View>(R.id.btn_sing_in).isEnabled = false
         } else if (it is SignInViewModel.States.Success) {
-
+            //appComponent.navigation().
         } else if (it is SignInViewModel.States.Error) {
             view!!.findViewById<TextView>(R.id.edit_password).isEnabled = true
             view!!.findViewById<TextView>(R.id.edit_email).isEnabled = true

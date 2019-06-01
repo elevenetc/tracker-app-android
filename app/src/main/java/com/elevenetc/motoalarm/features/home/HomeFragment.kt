@@ -9,5 +9,11 @@ class HomeFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
     }
-    
+
+    companion object {
+        fun instance(): HomeFragment {
+            return HomeFragment()
+        }
+    }
+
 }

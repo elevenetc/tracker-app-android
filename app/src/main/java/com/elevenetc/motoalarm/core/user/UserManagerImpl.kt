@@ -16,7 +16,7 @@ class UserManagerImpl @Inject constructor(
             if (email != "z") {
                 throw EmailOrPasswordInvalid()
             } else {
-                keyValue.setBool("signed-in", true)
+                keyValue.setBool(KeyValue.Keys.SIGNED_IN, true)
             }
         }
     }
@@ -28,7 +28,7 @@ class UserManagerImpl @Inject constructor(
     override fun singOut(): Completable {
         return Completable.fromAction {
             Thread.sleep(1000)
-            keyValue.setBool("signed-in", false)
+            keyValue.setBool(KeyValue.Keys.SIGNED_IN, false)
         }
     }
 

@@ -1,6 +1,8 @@
 package com.elevenetc.motoalarm.features.signin
 
 import com.elevenetc.motoalarm.core.mvi.ViewIntent
+import com.elevenetc.motoalarm.core.navigation.HomeCoordinator
+import com.elevenetc.motoalarm.core.navigation.SignInCoordinator
 import com.elevenetc.motoalarm.core.user.UserManager
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -9,7 +11,8 @@ import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 class SignInViewModel @Inject constructor(
-        private val userManager: UserManager
+        private val userManager: UserManager,
+        private val homeCoordinator: HomeCoordinator
 ) {
 
     val intentsObserver = PublishSubject.create<ViewIntent>()
@@ -29,6 +32,15 @@ class SignInViewModel @Inject constructor(
             )
             else -> throw RuntimeException("Not supported intent: $it")
         }
+    }
+
+    init {
+        states.filter({
+            it is States.Success
+        }).observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    homeCoordinator.start()
+                })
     }
 
     fun intent(intent: Observable<ViewIntent>) {
