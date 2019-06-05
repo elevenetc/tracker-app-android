@@ -1,5 +1,5 @@
 package com.elevenetc.motoalarm.core.navigation
 
-interface Coordinator {
-    fun start()
+interface Nav {
+    fun signOut()
 }

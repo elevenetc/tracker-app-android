@@ -25,7 +25,7 @@ class UserManagerImpl @Inject constructor(
         return keyValue.getBool(KeyValue.Keys.SIGNED_IN)
     }
 
-    override fun singOut(): Completable {
+    override fun signOut(): Completable {
         return Completable.fromAction {
             Thread.sleep(1000)
             keyValue.setBool(KeyValue.Keys.SIGNED_IN, false)

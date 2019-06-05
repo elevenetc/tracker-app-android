@@ -4,7 +4,6 @@
         android:id="@+id/home_map"
         android:title="@string/home_menu_map"/>
 
-
     <item
         android:id="@+id/home_devices"
         android:title="@string/home_menu_devices"/>
