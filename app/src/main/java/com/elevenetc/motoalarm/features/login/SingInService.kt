@@ -1,4 +1,4 @@
-package com.elevenetc.motoalarm.features.signin
+package com.elevenetc.motoalarm.features.login
 
 import com.elevenetc.motoalarm.core.user.User
 import io.reactivex.Completable

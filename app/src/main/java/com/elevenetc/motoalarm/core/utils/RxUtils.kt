@@ -10,20 +10,20 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 
 
-object RxUtils {
-    fun <T> btnObservable(btn: View, provider: () -> T): Observable<T> {
-        val subject = PublishSubject.create<T>()
-        btn.setOnClickListener {
-            subject.onNext(provider())
+class RxUtils {
+
+    companion object {
+        fun <T> btnObservable(btn: View, provider: () -> T): Observable<T> {
+            val subject = PublishSubject.create<T>()
+            btn.setOnClickListener {
+                subject.onNext(provider())
+            }
+            return subject
         }
-        return subject
+
+        fun scheduler(): CompletableTransformer {
+            return CompletableTransformer { upstream -> upstream.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()) }
+        }
     }
 
-    fun scheduler(): CompletableTransformer {
-        return object : CompletableTransformer {
-            override fun apply(upstream: Completable): CompletableSource {
-                return upstream.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            }
-        }
-    }
 }

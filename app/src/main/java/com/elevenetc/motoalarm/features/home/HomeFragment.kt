@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.elevenetc.motoalarm.R
 import com.elevenetc.motoalarm.core.ui.BaseFragment
-import com.elevenetc.motoalarm.features.devices.DevicesFragment
+import com.elevenetc.motoalarm.features.device.DevicesFragment
 import com.elevenetc.motoalarm.features.map.MapFragment
 import com.elevenetc.motoalarm.features.settings.SettingsFragment
 

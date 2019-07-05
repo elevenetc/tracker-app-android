@@ -1,4 +1,4 @@
-package com.elevenetc.motoalarm.features.signin
+package com.elevenetc.motoalarm.features.login
 
 import android.os.Bundle
 import com.elevenetc.motoalarm.R

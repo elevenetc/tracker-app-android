@@ -1,6 +1,7 @@
 package com.elevenetc.motoalarm.core.cache
 
 import android.content.Context
+import java.util.*
 import javax.inject.Inject
 
 class KeyValueImpl @Inject constructor(
@@ -8,6 +9,7 @@ class KeyValueImpl @Inject constructor(
 ) : KeyValue {
 
     private val prefs = context.getSharedPreferences("main", Context.MODE_PRIVATE)
+
 
     override fun getBool(key: String, default: Boolean): Boolean {
         return prefs.getBoolean(key, default)
@@ -23,5 +25,17 @@ class KeyValueImpl @Inject constructor(
 
     override fun setString(key: String, value: String) {
         prefs.edit().putString(key, value).apply()
+    }
+
+    override fun setString(key: String, value: Any) {
+        setString(key, value.toString())
+    }
+
+    override fun getUUID(key: String): UUID {
+        return UUID.fromString(getString(key))
+    }
+
+    override fun clear() {
+        prefs.edit().clear().apply()
     }
 }

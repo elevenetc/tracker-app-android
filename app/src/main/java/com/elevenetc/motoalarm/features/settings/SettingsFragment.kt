@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.elevenetc.motoalarm.R
 import com.elevenetc.motoalarm.core.ui.BaseFragment
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class SettingsFragment : BaseFragment() {
 
@@ -15,11 +17,16 @@ class SettingsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.findViewById<View>(R.id.btn_logout).setOnClickListener {
-            appComponent.settings().signOut().run().subscribe({
-                appComponent.nav().signOut()
-            }, {
 
-            })
+
+            appComponent.settings().logout().run()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        appComponent.nav().logOut()
+                    }, {
+                        it.printStackTrace()
+                    })
         }
     }
 

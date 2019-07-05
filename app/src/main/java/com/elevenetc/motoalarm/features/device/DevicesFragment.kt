@@ -1,6 +1,5 @@
-package com.elevenetc.motoalarm.features.devices
+package com.elevenetc.motoalarm.features.device
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View

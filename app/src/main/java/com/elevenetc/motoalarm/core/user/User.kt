@@ -1,3 +1,7 @@
 package com.elevenetc.motoalarm.core.user
 
-data class User(val name: String)
+import java.util.*
+
+data class User(
+        val id: UUID
+)
