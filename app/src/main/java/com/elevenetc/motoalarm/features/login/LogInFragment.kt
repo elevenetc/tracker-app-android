@@ -1,7 +1,6 @@
 package com.elevenetc.motoalarm.features.login
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,22 +31,15 @@ class LogInFragment : BaseFragment() {
         subs.add(viewModel.stateStream().subscribe { render(it) })
 
         viewModel.intent(btnObservable(btnLogIn) {
-            LogInViewModel.Intents.LogIn(
-                    editEmail.text.toString(),
-                    editPassword.text.toString()
-            )
+            LogInViewModel.Intents.LogIn(editEmail.text.toString(), editPassword.text.toString())
         })
 
         viewModel.intent(btnObservable(btnRegister) {
-            LogInViewModel.Intents.Register(
-                    editEmail.text.toString(),
-                    editPassword.text.toString()
-            )
+            LogInViewModel.Intents.Register(editEmail.text.toString(), editPassword.text.toString())
         })
     }
 
     private fun render(it: LogInViewModel.States?) {
-        Log.d("render", it.toString())
         when (it) {
             is LogInViewModel.States.Progress -> {
                 view!!.findViewById<TextView>(R.id.edit_password).isEnabled = false
@@ -55,7 +47,7 @@ class LogInFragment : BaseFragment() {
                 view!!.findViewById<View>(R.id.btn_login).isEnabled = false
             }
             is LogInViewModel.States.Success -> {
-                appComponent.navigation().root().start()
+                appComponent.navigation().goToHome()
             }
             is LogInViewModel.States.Error -> {
                 it.error.printStackTrace()

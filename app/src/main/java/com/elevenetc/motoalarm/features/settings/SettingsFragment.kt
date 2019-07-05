@@ -23,7 +23,7 @@ class SettingsFragment : BaseFragment() {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
-                        appComponent.nav().logOut()
+                        appComponent.navigation().goToLogin()
                     }, {
                         it.printStackTrace()
                     })

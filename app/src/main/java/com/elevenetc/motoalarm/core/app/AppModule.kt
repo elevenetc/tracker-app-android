@@ -6,8 +6,8 @@ import com.elevenetc.motoalarm.core.api.ApiImpl
 import com.elevenetc.motoalarm.core.cache.KeyValue
 import com.elevenetc.motoalarm.core.cache.KeyValueImpl
 import com.elevenetc.motoalarm.core.navigation.ActivityKeeper
-import com.elevenetc.motoalarm.core.navigation.Nav
-import com.elevenetc.motoalarm.core.navigation.NavImpl
+import com.elevenetc.motoalarm.core.navigation.Navigator
+import com.elevenetc.motoalarm.core.navigation.NavigatorImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -35,5 +35,5 @@ class AppModule(private val context: Context) {
     fun api(inst: ApiImpl): Api = inst
 
     @Provides
-    fun nav(inst: NavImpl): Nav = inst
+    fun nav(inst: NavigatorImpl): Navigator = inst
 }

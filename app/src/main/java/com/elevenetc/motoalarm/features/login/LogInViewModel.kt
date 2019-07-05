@@ -3,7 +3,6 @@ package com.elevenetc.motoalarm.features.login
 import com.elevenetc.motoalarm.core.api.Api
 import com.elevenetc.motoalarm.core.cache.KeyValue
 import com.elevenetc.motoalarm.core.mvi.ViewIntent
-import com.elevenetc.motoalarm.core.navigation.HomeCoordinator
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -12,8 +11,7 @@ import javax.inject.Inject
 
 class LogInViewModel @Inject constructor(
         private val api: Api,
-        private val keyValue: KeyValue,
-        private val homeCoordinator: HomeCoordinator
+        private val keyValue: KeyValue
 ) {
 
     val intentsSubject = PublishSubject.create<ViewIntent>()
@@ -22,7 +20,7 @@ class LogInViewModel @Inject constructor(
 
         when (it) {
             is Intents.LogIn -> Observable.concat(Observable.just(States.Progress),
-                    LoginUseCase(api, keyValue).get(it.email, it.password)
+                    LoginUseCase(api, keyValue).run(it.email, it.password)
                             .toSingleDefault(States.Success)
                             .cast(States::class.java)
                             .toObservable()
@@ -41,15 +39,6 @@ class LogInViewModel @Inject constructor(
             )
             else -> throw RuntimeException("Not supported intent: $it")
         }
-    }
-
-    init {
-//        states.filter {
-//            it is States.Success
-//        }.observeOn(AndroidSchedulers.mainThread())
-//                .subscribe {
-//                    homeCoordinator.start()
-//                }
     }
 
     fun intent(intent: Observable<ViewIntent>) {

@@ -9,7 +9,7 @@ class LoginUseCase(
         private val api: Api,
         private val keyValue: KeyValue
 ) : UseCase() {
-    fun get(email: String, password: String): Completable {
+    fun run(email: String, password: String): Completable {
 
         return api.login(email, password).flatMapCompletable {
             val token = it.first

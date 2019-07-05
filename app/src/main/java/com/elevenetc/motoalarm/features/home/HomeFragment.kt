@@ -39,7 +39,7 @@ class HomeFragment : BaseFragment() {
     }
 
     companion object {
-        fun instance(): HomeFragment {
+        fun newInstance(): HomeFragment {
             return HomeFragment()
         }
     }
