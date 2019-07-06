@@ -3,6 +3,7 @@ package com.elevenetc.motoalarm.core.app
 import android.content.Context
 import com.elevenetc.motoalarm.core.navigation.ActivityKeeper
 import com.elevenetc.motoalarm.core.navigation.Navigator
+import com.elevenetc.motoalarm.features.device.DeviceComponent
 import com.elevenetc.motoalarm.features.login.LogInComponent
 import com.elevenetc.motoalarm.features.settings.SettingsComponent
 import dagger.Component
@@ -17,6 +18,7 @@ interface AppComponent {
 
     fun signIn(): LogInComponent
     fun settings(): SettingsComponent
+    fun device(): DeviceComponent
 
     fun navigation(): Navigator
 }

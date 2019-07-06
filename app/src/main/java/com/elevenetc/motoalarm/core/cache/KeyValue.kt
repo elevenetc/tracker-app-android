@@ -15,5 +15,6 @@ interface KeyValue {
         const val LOGGED_IN = "logged-in"
         const val USER_ID = "user-id"
         const val ACCESS_TOKEN = "access-token"
+        const val DEVICE_REGISTERED = "device-registered"
     }
 }
