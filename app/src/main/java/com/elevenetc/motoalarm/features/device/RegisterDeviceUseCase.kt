@@ -25,6 +25,7 @@ class RegisterDeviceUseCase @Inject constructor(
 
         return api.registerDevice(id, deviceMan, deviceName, AccessToken(accessToken), userId).flatMapCompletable {
             keyValue.setBool(KeyValue.Keys.DEVICE_REGISTERED, true)
+            keyValue.setString(KeyValue.Keys.DEVICE_ID, it.id)
             Completable.complete()
         }
     }

@@ -7,10 +7,7 @@ import io.reactivex.Single
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.Header
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 import java.util.*
 import javax.inject.Inject
 
@@ -51,6 +48,21 @@ class ApiImpl @Inject constructor() : Api {
         }
     }
 
+    override fun getDevices(accessToken: AccessToken,
+                            userId: UUID): Single<List<Device>> {
+        return api.getDevices(userId, accessToken.value).map {
+            it.map {
+                Device().apply {
+                    this.hardwareId = it.hardwareId
+                    this.manufacturer = it.manufacturer
+                    this.mode = it.mode
+                    this.name = it.name
+                    this.id = it.id!!
+                }
+            }
+        }
+    }
+
     interface NetworkApi {
         @POST("/users")
         fun register(@Body body: RegisterUserDto): Single<UserDto>
@@ -70,6 +82,9 @@ class ApiImpl @Inject constructor() : Api {
                 @Header("access-token") token: UUID
         ): Single<DeviceDto>
 
-
+        @GET("users/{userId}/devices")
+        fun getDevices(@Path("userId") userId: UUID,
+                       @Header("access-token") token: UUID): Single<List<DeviceDto>>
     }
+
 }

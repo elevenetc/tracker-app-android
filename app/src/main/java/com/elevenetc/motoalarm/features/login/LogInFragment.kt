@@ -47,7 +47,7 @@ class LogInFragment : BaseFragment() {
                 view!!.findViewById<View>(R.id.btn_login).isEnabled = false
             }
             is LogInViewModel.States.Success -> {
-                appComponent.navigation().goToHome()
+                appComponent.navigation().onLoggedIn()
             }
             is LogInViewModel.States.Error -> {
                 it.error.printStackTrace()

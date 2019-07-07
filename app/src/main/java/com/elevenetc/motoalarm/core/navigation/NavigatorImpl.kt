@@ -15,10 +15,22 @@ class NavigatorImpl @Inject constructor(
 
     override fun start() {
         if (keyValue.getBool(KeyValue.Keys.LOGGED_IN)) {
-            goToHome()
+            onLoggedIn()
         } else {
             goToLogin()
         }
+    }
+
+    override fun onLoggedIn() {
+        if (keyValue.getBool(KeyValue.Keys.DEVICE_REGISTERED)) {
+            goToHome()
+        } else {
+            goToDeviceRegistration()
+        }
+    }
+
+    override fun onDeviceRegistered() {
+        goToHome()
     }
 
     override fun goToLogin() {

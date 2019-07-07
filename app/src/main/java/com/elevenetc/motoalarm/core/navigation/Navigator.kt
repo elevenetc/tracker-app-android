@@ -5,4 +5,6 @@ interface Navigator {
     fun goToDeviceRegistration()
     fun goToHome()
     fun goToLogin()
+    fun onLoggedIn()
+    fun onDeviceRegistered()
 }

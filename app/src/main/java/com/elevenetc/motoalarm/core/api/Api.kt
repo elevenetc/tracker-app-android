@@ -17,6 +17,9 @@ interface Api {
                        accessToken: AccessToken,
                        userId: UUID): Single<Device>
 
+    fun getDevices(accessToken: AccessToken,
+                   userId: UUID): Single<List<Device>>
+
     fun logout(accessToken: AccessToken,
                userId: UUID): Completable
 }
