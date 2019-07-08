@@ -44,7 +44,13 @@ class ApiImpl @Inject constructor() : Api {
                                 userId: UUID): Single<Device> {
 
         return api.registerDevice(CreateDeviceDto(hardwareId, manufacturer, name), userId, accessToken.value).map {
-            Device()
+            Device().apply {
+                this.id = it.id!!
+                this.name = it.name
+                this.mode = ""
+                this.manufacturer = it.manufacturer
+                this.hardwareId = it.hardwareId
+            }
         }
     }
 

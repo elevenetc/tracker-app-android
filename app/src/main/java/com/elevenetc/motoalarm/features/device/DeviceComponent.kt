@@ -5,4 +5,5 @@ import dagger.Subcomponent
 @Subcomponent
 interface DeviceComponent {
     fun registerDevice(): RegisterDeviceUseCase
+    fun getDevices(): GetDevicesUseCase
 }
