@@ -3,6 +3,7 @@ package com.elevenetc.motoalarm.core.navigation
 import com.elevenetc.motoalarm.R
 import com.elevenetc.motoalarm.core.cache.KeyValue
 import com.elevenetc.motoalarm.core.ui.BaseFragment
+import com.elevenetc.motoalarm.features.device.DeviceFragment
 import com.elevenetc.motoalarm.features.device.DeviceRegistrationFragment
 import com.elevenetc.motoalarm.features.home.HomeFragment
 import com.elevenetc.motoalarm.features.login.LogInFragment
@@ -27,6 +28,10 @@ class NavigatorImpl @Inject constructor(
         } else {
             goToDeviceRegistration()
         }
+    }
+
+    override fun openDevice() {
+        addIfNotAdded(DeviceFragment(), TAG_DEVICE)
     }
 
     override fun onDeviceRegistered() {
@@ -60,6 +65,7 @@ class NavigatorImpl @Inject constructor(
     private companion object {
         const val TAG_LOGIN = "login"
         const val TAG_HOME = "home"
+        const val TAG_DEVICE = "device"
         const val TAG_DEVICE_REGISTRATION = "device-registration"
     }
 }

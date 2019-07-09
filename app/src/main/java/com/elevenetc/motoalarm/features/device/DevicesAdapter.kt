@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
 import com.elevenetc.motoalarm.R
+import java.util.*
 
-class DevicesAdapter(val devices: List<Device>) : RecyclerView.Adapter<DevicesAdapter.VH>() {
+class DevicesAdapter(val devices: List<Device>, val onDevicesClick:(deviceId:UUID) -> Unit) : RecyclerView.Adapter<DevicesAdapter.VH>() {
 
     override fun onCreateViewHolder(container: ViewGroup, type: Int): VH {
         return VH(LayoutInflater.from(container.context).inflate(R.layout.item_device, container, false))
@@ -23,6 +24,9 @@ class DevicesAdapter(val devices: List<Device>) : RecyclerView.Adapter<DevicesAd
         vh.itemView.findViewById<TextView>(R.id.text_name).text = device.name
         vh.itemView.findViewById<TextView>(R.id.text_manufacturer).text = device.manufacturer
         vh.itemView.findViewById<CheckBox>(R.id.check_current_device).isChecked = device.current
+        vh.itemView.setOnClickListener {
+            onDevicesClick(device.id)
+        }
     }
 
     class VH(view: View) : RecyclerView.ViewHolder(view) {

@@ -7,4 +7,5 @@ interface Navigator {
     fun goToLogin()
     fun onLoggedIn()
     fun onDeviceRegistered()
+    fun openDevice()
 }
