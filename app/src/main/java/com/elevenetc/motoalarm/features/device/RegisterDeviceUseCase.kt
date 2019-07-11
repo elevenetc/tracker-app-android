@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.provider.Settings
 import com.elevenetc.motoalarm.core.UseCase
-import com.elevenetc.motoalarm.core.api.AccessToken
 import com.elevenetc.motoalarm.core.api.Api
 import com.elevenetc.motoalarm.core.cache.KeyValue
 import io.reactivex.Completable
@@ -23,7 +22,7 @@ class RegisterDeviceUseCase @Inject constructor(
         val deviceName = android.os.Build.MODEL
         val deviceMan = android.os.Build.MANUFACTURER
 
-        return api.registerDevice(id, deviceMan, deviceName, AccessToken(accessToken), userId).flatMapCompletable {
+        return api.registerDevice(id, deviceMan, deviceName).flatMapCompletable {
             keyValue.setBool(KeyValue.Keys.DEVICE_REGISTERED, true)
             keyValue.setString(KeyValue.Keys.DEVICE_ID, it.id)
             Completable.complete()

@@ -13,13 +13,11 @@ interface Api {
 
     fun registerDevice(hardwareId: String,
                        manufacturer: String,
-                       name: String,
-                       accessToken: AccessToken,
-                       userId: UUID): Single<Device>
+                       name: String): Single<Device>
 
-    fun getDevices(accessToken: AccessToken,
-                   userId: UUID): Single<List<Device>>
+    fun getDevices(): Single<List<Device>>
 
-    fun logout(accessToken: AccessToken,
-               userId: UUID): Completable
+    fun getDevice(deviceId: UUID):Single<Device>
+
+    fun logout(): Completable
 }

@@ -1,28 +1,37 @@
 package com.elevenetc.motoalarm.core.api
 
+import com.elevenetc.motoalarm.core.cache.KeyValue
 import com.elevenetc.motoalarm.core.user.User
 import com.elevenetc.motoalarm.features.device.Device
 import io.reactivex.Completable
 import io.reactivex.Single
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Path
 import java.util.*
 import javax.inject.Inject
 
-class ApiImpl @Inject constructor() : Api {
+class ApiImpl @Inject constructor(
+        private val keyValue: KeyValue,
+        authInterceptor: AuthInterceptor
+) : Api {
 
     private val api = Retrofit.Builder()
+            .client(OkHttpClient.Builder().addInterceptor(authInterceptor).build())
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .baseUrl("http://10.0.2.2:8080/")
             .build()
             .create(NetworkApi::class.java)
 
-    override fun logout(accessToken: AccessToken,
-                        userId: UUID): Completable {
-        return api.logout(userId, accessToken.value)
+    override fun logout(): Completable {
+        val userId = keyValue.getUUID(KeyValue.Keys.USER_ID)
+        return api.logout(userId)
     }
 
     override fun login(email: String, password: String): Single<Pair<AccessToken, User>> {
@@ -39,11 +48,11 @@ class ApiImpl @Inject constructor() : Api {
 
     override fun registerDevice(hardwareId: String,
                                 manufacturer: String,
-                                name: String,
-                                accessToken: AccessToken,
-                                userId: UUID): Single<Device> {
+                                name: String): Single<Device> {
 
-        return api.registerDevice(CreateDeviceDto(hardwareId, manufacturer, name), userId, accessToken.value).map {
+        val userId = keyValue.getUUID(KeyValue.Keys.USER_ID)
+
+        return api.registerDevice(CreateDeviceDto(hardwareId, manufacturer, name), userId).map {
             Device().apply {
                 this.id = it.id!!
                 this.name = it.name
@@ -54,9 +63,11 @@ class ApiImpl @Inject constructor() : Api {
         }
     }
 
-    override fun getDevices(accessToken: AccessToken,
-                            userId: UUID): Single<List<Device>> {
-        return api.getDevices(userId, accessToken.value).map {
+    override fun getDevices(): Single<List<Device>> {
+
+        val userId = keyValue.getUUID(KeyValue.Keys.USER_ID)
+
+        return api.getDevices(userId).map {
             it.map {
                 Device().apply {
                     this.hardwareId = it.hardwareId
@@ -69,6 +80,21 @@ class ApiImpl @Inject constructor() : Api {
         }
     }
 
+    override fun getDevice(deviceId: UUID): Single<Device> {
+
+        val userId = keyValue.getUUID(KeyValue.Keys.USER_ID)
+
+        return api.getDevice(userId, deviceId).map {
+            Device().apply {
+                this.hardwareId = it.hardwareId
+                this.manufacturer = it.manufacturer
+                this.mode = it.mode
+                this.name = it.name
+                this.id = it.id!!
+            }
+        }
+    }
+
     interface NetworkApi {
         @POST("/users")
         fun register(@Body body: RegisterUserDto): Single<UserDto>
@@ -77,20 +103,22 @@ class ApiImpl @Inject constructor() : Api {
         fun login(@Body body: LoginDto): Single<UserDto>
 
         @POST("/users/{userId}/logout")
-        fun logout(
-                @Path("userId") userId: UUID,
-                @Header("access-token") token: UUID): Completable
+        fun logout(@Path("userId") userId: UUID): Completable
 
         @POST("users/{userId}/devices")
         fun registerDevice(
                 @Body body: CreateDeviceDto,
-                @Path("userId") userId: UUID,
-                @Header("access-token") token: UUID
+                @Path("userId") userId: UUID
         ): Single<DeviceDto>
 
         @GET("users/{userId}/devices")
-        fun getDevices(@Path("userId") userId: UUID,
-                       @Header("access-token") token: UUID): Single<List<DeviceDto>>
+        fun getDevices(@Path("userId") userId: UUID): Single<List<DeviceDto>>
+
+        @GET("users/{userId}/devices/{deviceId}")
+        fun getDevice(
+                @Path("userId") userId: UUID,
+                @Path("deviceId") deviceId: UUID
+        ): Single<DeviceDto>
     }
 
 }
