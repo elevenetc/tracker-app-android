@@ -3,6 +3,7 @@ package com.elevenetc.motoalarm.core.cache
 import java.util.*
 
 interface KeyValue {
+    fun contains(key: String): Boolean
     fun getBool(key: String, default: Boolean = false): Boolean
     fun setBool(key: String, value: Boolean)
     fun setString(key: String, value: String)

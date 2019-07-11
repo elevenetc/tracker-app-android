@@ -38,4 +38,8 @@ class KeyValueImpl @Inject constructor(
     override fun clear() {
         prefs.edit().clear().apply()
     }
+
+    override fun contains(key: String): Boolean {
+        return prefs.contains(key)
+    }
 }

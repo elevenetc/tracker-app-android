@@ -1,5 +1,7 @@
 package com.elevenetc.motoalarm.core.navigation
 
+import java.util.*
+
 interface Navigator {
     fun start()
     fun goToDeviceRegistration()
@@ -7,5 +9,5 @@ interface Navigator {
     fun goToLogin()
     fun onLoggedIn()
     fun onDeviceRegistered()
-    fun openDevice()
+    fun openDevice(deviceId: UUID)
 }

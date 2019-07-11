@@ -45,9 +45,9 @@ class DevicesFragment : BaseFragment() {
                     recyclerView.visibility = View.VISIBLE
 
                     recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                    recyclerView.adapter = DevicesAdapter(it, {
-                        appComponent.navigation().openDevice()
-                    })
+                    recyclerView.adapter = DevicesAdapter(it) { deviceId ->
+                        appComponent.navigation().openDevice(deviceId)
+                    }
 
 
                 }, {

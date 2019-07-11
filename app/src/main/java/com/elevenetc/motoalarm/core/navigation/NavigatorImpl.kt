@@ -3,10 +3,11 @@ package com.elevenetc.motoalarm.core.navigation
 import com.elevenetc.motoalarm.R
 import com.elevenetc.motoalarm.core.cache.KeyValue
 import com.elevenetc.motoalarm.core.ui.BaseFragment
-import com.elevenetc.motoalarm.features.device.DeviceFragment
+import com.elevenetc.motoalarm.features.device.DeviceActivity
 import com.elevenetc.motoalarm.features.device.DeviceRegistrationFragment
 import com.elevenetc.motoalarm.features.home.HomeFragment
 import com.elevenetc.motoalarm.features.login.LogInFragment
+import java.util.*
 import javax.inject.Inject
 
 class NavigatorImpl @Inject constructor(
@@ -30,8 +31,8 @@ class NavigatorImpl @Inject constructor(
         }
     }
 
-    override fun openDevice() {
-        addIfNotAdded(DeviceFragment(), TAG_DEVICE)
+    override fun openDevice(deviceId: UUID) {
+        DeviceActivity.start(deviceId, activityKeeper.activity!!)
     }
 
     override fun onDeviceRegistered() {

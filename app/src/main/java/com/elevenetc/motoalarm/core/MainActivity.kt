@@ -10,12 +10,12 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        appComponent.mainActivity().activity = this
-        appComponent.navigation().start()
+        components.mainActivity().activity = this
+        components.navigation().start()
     }
 
     override fun onDestroy() {
-        appComponent.mainActivity().activity = null
+        components.mainActivity().activity = null
         super.onDestroy()
     }
 }

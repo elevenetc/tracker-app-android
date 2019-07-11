@@ -5,5 +5,5 @@ import com.elevenetc.motoalarm.core.app.App
 import com.elevenetc.motoalarm.core.app.AppComponent
 
 open class BaseActivity : AppCompatActivity() {
-    val appComponent: AppComponent by lazy { (applicationContext as App).appComponent }
+    val components: AppComponent by lazy { (applicationContext as App).appComponent }
 }

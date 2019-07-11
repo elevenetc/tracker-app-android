@@ -7,4 +7,5 @@ interface DeviceComponent {
     fun registerDevice(): RegisterDeviceUseCase
     fun getDevices(): GetDevicesUseCase
     fun getCurrentDevice(): GetCurrentDevice
+    fun getDevice(): GetDevice
 }
