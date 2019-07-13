@@ -34,7 +34,7 @@ class DevicesFragment : BaseFragment() {
 
         btnRetry.setOnClickListener { getDevices() }
 
-        subs.add(appComponent.device().getDevices()
+        subs.add(components.device().getDevices()
                 .run()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -46,7 +46,7 @@ class DevicesFragment : BaseFragment() {
 
                     recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                     recyclerView.adapter = DevicesAdapter(it) { deviceId ->
-                        appComponent.navigation().openDevice(deviceId)
+                        components.navigation().openDevice(deviceId)
                     }
 
 

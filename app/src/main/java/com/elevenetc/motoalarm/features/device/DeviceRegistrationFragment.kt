@@ -29,11 +29,11 @@ class DeviceRegistrationFragment : BaseFragment() {
         progressView.visibility = View.VISIBLE
         btnRetry.visibility = View.GONE
 
-        subs.add(appComponent.device().registerDevice().run()
+        subs.add(components.device().registerDevice().run()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-            appComponent.navigation().onDeviceRegistered()
+            components.navigation().onDeviceRegistered()
         }, {
             it.printStackTrace()
             btnRetry.visibility = View.VISIBLE

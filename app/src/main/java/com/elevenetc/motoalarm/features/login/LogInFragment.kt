@@ -26,7 +26,7 @@ class LogInFragment : BaseFragment() {
         val editEmail = view.findViewById<TextView>(R.id.edit_email)
         val editPassword = view.findViewById<TextView>(R.id.edit_password)
 
-        viewModel = appComponent.signIn().viewModel()
+        viewModel = components.signIn().viewModel()
 
         subs.add(viewModel.stateStream().subscribe { render(it) })
 
@@ -47,7 +47,7 @@ class LogInFragment : BaseFragment() {
                 view!!.findViewById<View>(R.id.btn_login).isEnabled = false
             }
             is LogInViewModel.States.Success -> {
-                appComponent.navigation().onLoggedIn()
+                components.navigation().onLoggedIn()
             }
             is LogInViewModel.States.Error -> {
                 it.error.printStackTrace()

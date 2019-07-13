@@ -9,10 +9,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 import java.util.*
 import javax.inject.Inject
 
@@ -95,6 +92,11 @@ class ApiImpl @Inject constructor(
         }
     }
 
+    override fun updateDeviceMode(deviceId: UUID, mode: String): Completable {
+        val userId = keyValue.getUUID(KeyValue.Keys.USER_ID)
+        return api.setMode(UpdateMode(mode), userId, deviceId)
+    }
+
     interface NetworkApi {
         @POST("/users")
         fun register(@Body body: RegisterUserDto): Single<UserDto>
@@ -119,6 +121,13 @@ class ApiImpl @Inject constructor(
                 @Path("userId") userId: UUID,
                 @Path("deviceId") deviceId: UUID
         ): Single<DeviceDto>
+
+        @POST("users/{userId}/devices/{deviceId}/mode")
+        fun setMode(
+                @Body body: UpdateMode,
+                @Path("userId") userId: UUID,
+                @Path("deviceId") deviceId: UUID
+        ): Completable
     }
 
 }

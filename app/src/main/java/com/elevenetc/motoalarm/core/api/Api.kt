@@ -9,6 +9,8 @@ import java.util.*
 interface Api {
     fun login(email: String, password: String): Single<Pair<AccessToken, User>>
 
+    fun logout(): Completable
+
     fun register(email: String, password: String): Single<Pair<AccessToken, User>>
 
     fun registerDevice(hardwareId: String,
@@ -17,7 +19,7 @@ interface Api {
 
     fun getDevices(): Single<List<Device>>
 
-    fun getDevice(deviceId: UUID):Single<Device>
+    fun getDevice(deviceId: UUID): Single<Device>
 
-    fun logout(): Completable
+    fun updateDeviceMode(deviceId: UUID, mode: String): Completable
 }

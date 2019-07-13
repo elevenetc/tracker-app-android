@@ -8,4 +8,5 @@ interface DeviceComponent {
     fun getDevices(): GetDevicesUseCase
     fun getCurrentDevice(): GetCurrentDevice
     fun getDevice(): GetDevice
+    fun updateMode():UpdateMode
 }

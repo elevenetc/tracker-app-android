@@ -6,6 +6,6 @@ import com.elevenetc.motoalarm.core.app.AppComponent
 import io.reactivex.disposables.CompositeDisposable
 
 open class BaseFragment : Fragment() {
-    val appComponent: AppComponent by lazy { (context!!.applicationContext as App).appComponent }
+    val components: AppComponent by lazy { (context!!.applicationContext as App).appComponent }
     val subs = CompositeDisposable()
 }

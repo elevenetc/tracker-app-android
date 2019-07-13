@@ -19,11 +19,11 @@ class SettingsFragment : BaseFragment() {
         view.findViewById<View>(R.id.btn_logout).setOnClickListener {
 
 
-            appComponent.settings().logout().run()
+            components.settings().logout().run()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
-                        appComponent.navigation().goToLogin()
+                        components.navigation().goToLogin()
                     }, {
                         it.printStackTrace()
                     })
