@@ -10,4 +10,5 @@ interface Navigator {
     fun onLoggedIn()
     fun onDeviceRegistered()
     fun openDevice(deviceId: UUID)
+    fun onBasePermissionsGranted()
 }

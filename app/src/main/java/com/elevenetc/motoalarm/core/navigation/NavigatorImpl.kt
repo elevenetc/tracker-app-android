@@ -2,17 +2,20 @@ package com.elevenetc.motoalarm.core.navigation
 
 import com.elevenetc.motoalarm.R
 import com.elevenetc.motoalarm.core.cache.KeyValue
+import com.elevenetc.motoalarm.core.permissions.PermissionsManagerImpl
 import com.elevenetc.motoalarm.core.ui.BaseFragment
 import com.elevenetc.motoalarm.features.device.DeviceActivity
 import com.elevenetc.motoalarm.features.device.DeviceRegistrationFragment
 import com.elevenetc.motoalarm.features.home.HomeFragment
 import com.elevenetc.motoalarm.features.login.LogInFragment
+import com.elevenetc.motoalarm.features.permissions.PermissionsFragment
 import java.util.*
 import javax.inject.Inject
 
 class NavigatorImpl @Inject constructor(
         val activityKeeper: ActivityKeeper,
-        val keyValue: KeyValue
+        val keyValue: KeyValue,
+        val permissions: PermissionsManagerImpl
 ) : Navigator {
 
     override fun start() {
@@ -36,7 +39,12 @@ class NavigatorImpl @Inject constructor(
     }
 
     override fun onDeviceRegistered() {
-        goToHome()
+
+        if (permissions.basePermissionsGranted()) {
+            goToHome()
+        } else {
+            goToBasePermissions()
+        }
     }
 
     override fun goToLogin() {
@@ -49,6 +57,14 @@ class NavigatorImpl @Inject constructor(
 
     override fun goToHome() {
         addIfNotAdded(HomeFragment.newInstance(), TAG_HOME)
+    }
+
+    private fun goToBasePermissions() {
+        addIfNotAdded(PermissionsFragment.newInstance(), PERMISSIONS)
+    }
+
+    override fun onBasePermissionsGranted() {
+        goToHome()
     }
 
     private fun addIfNotAdded(fragment: BaseFragment, tag: String) {
@@ -66,7 +82,7 @@ class NavigatorImpl @Inject constructor(
     private companion object {
         const val TAG_LOGIN = "login"
         const val TAG_HOME = "home"
-        const val TAG_DEVICE = "device"
         const val TAG_DEVICE_REGISTRATION = "device-registration"
+        const val PERMISSIONS = "permissions"
     }
 }

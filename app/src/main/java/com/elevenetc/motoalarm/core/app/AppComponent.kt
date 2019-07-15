@@ -1,8 +1,10 @@
 package com.elevenetc.motoalarm.core.app
 
 import android.content.Context
+import com.elevenetc.motoalarm.core.bus.BusImpl
 import com.elevenetc.motoalarm.core.navigation.ActivityKeeper
 import com.elevenetc.motoalarm.core.navigation.Navigator
+import com.elevenetc.motoalarm.core.permissions.PermissionsManagerImpl
 import com.elevenetc.motoalarm.features.device.DeviceComponent
 import com.elevenetc.motoalarm.features.login.LogInComponent
 import com.elevenetc.motoalarm.features.settings.SettingsComponent
@@ -21,4 +23,7 @@ interface AppComponent {
     fun device(): DeviceComponent
 
     fun navigation(): Navigator
+
+    fun permissions(): PermissionsManagerImpl
+    fun bus(): BusImpl
 }
