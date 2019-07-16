@@ -9,7 +9,7 @@ class BusImpl @Inject constructor(){
     private val subject = PublishSubject.create<Any>()
 
     fun post(event: Any) {
-        subject.onNext(subject)
+        subject.onNext(event)
     }
 
     fun get(): Observable<Any> {

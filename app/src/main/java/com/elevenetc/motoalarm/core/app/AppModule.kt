@@ -3,6 +3,7 @@ package com.elevenetc.motoalarm.core.app
 import android.content.Context
 import com.elevenetc.motoalarm.core.api.Api
 import com.elevenetc.motoalarm.core.api.ApiImpl
+import com.elevenetc.motoalarm.core.bus.BusImpl
 import com.elevenetc.motoalarm.core.cache.KeyValue
 import com.elevenetc.motoalarm.core.cache.KeyValueImpl
 import com.elevenetc.motoalarm.core.navigation.ActivityKeeper
@@ -36,4 +37,10 @@ class AppModule(private val context: Context) {
 
     @Provides
     fun nav(inst: NavigatorImpl): Navigator = inst
+
+    @Provides
+    @Singleton
+    fun bus(): BusImpl {
+        return BusImpl()
+    }
 }
