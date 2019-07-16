@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.elevenetc.motoalarm.R
 import com.elevenetc.motoalarm.core.cache.KeyValue
 import com.elevenetc.motoalarm.core.ui.BaseFragment
+import com.elevenetc.motoalarm.features.mode.Mode
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.*
@@ -80,10 +81,19 @@ class DeviceFragment : BaseFragment() {
                 .subscribe({
                     deviceMode = newMode
                     showContent()
+                    initMode()
                 }, {
                     it.printStackTrace()
                     showErrorOnUpdateDevice()
                 }))
+    }
+
+    private fun initMode() {
+        if (deviceMode == "tracker") {
+            components.mode().setMode(Mode.TRACKER)
+        } else if (deviceMode == "viewer") {
+            components.mode().setMode(Mode.VIEWER)
+        }
     }
 
     private fun loadDevice(view: View) {
@@ -107,8 +117,10 @@ class DeviceFragment : BaseFragment() {
                     textName.text = it.name
                     textManufacturer.text = it.manufacturer
                     if (it.mode == "tracker") {
+                        components.mode().setMode(Mode.TRACKER)
                         btnTracker.isChecked = true
                     } else {
+                        components.mode().setMode(Mode.VIEWER)
                         btnViewer.isChecked = true
                     }
 

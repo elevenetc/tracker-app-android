@@ -7,6 +7,7 @@ import com.elevenetc.motoalarm.core.navigation.Navigator
 import com.elevenetc.motoalarm.core.permissions.PermissionsManagerImpl
 import com.elevenetc.motoalarm.features.device.DeviceComponent
 import com.elevenetc.motoalarm.features.login.LogInComponent
+import com.elevenetc.motoalarm.features.mode.ModeManagerImpl
 import com.elevenetc.motoalarm.features.settings.SettingsComponent
 import dagger.Component
 import javax.inject.Singleton
@@ -26,4 +27,6 @@ interface AppComponent {
 
     fun permissions(): PermissionsManagerImpl
     fun bus(): BusImpl
+
+    fun mode(): ModeManagerImpl
 }
