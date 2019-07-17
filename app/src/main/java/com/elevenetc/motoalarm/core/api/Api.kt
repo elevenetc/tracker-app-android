@@ -1,5 +1,6 @@
 package com.elevenetc.motoalarm.core.api
 
+import com.elevenetc.motoalarm.core.location.Loc
 import com.elevenetc.motoalarm.core.user.User
 import com.elevenetc.motoalarm.features.device.Device
 import io.reactivex.Completable
@@ -22,4 +23,6 @@ interface Api {
     fun getDevice(deviceId: UUID): Single<Device>
 
     fun updateDeviceMode(deviceId: UUID, mode: String): Completable
+
+    fun postState(loc: Loc, battery: Float, deviceId: UUID): Completable
 }

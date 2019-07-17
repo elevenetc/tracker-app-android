@@ -1,6 +1,7 @@
 package com.elevenetc.motoalarm.core.api
 
 import com.elevenetc.motoalarm.core.cache.KeyValue
+import com.elevenetc.motoalarm.core.location.Loc
 import com.elevenetc.motoalarm.core.user.User
 import com.elevenetc.motoalarm.features.device.Device
 import io.reactivex.Completable
@@ -97,6 +98,11 @@ class ApiImpl @Inject constructor(
         return api.setMode(UpdateMode(mode), userId, deviceId)
     }
 
+    override fun postState(loc: Loc, battery: Float, deviceId: UUID): Completable {
+        val userId = keyValue.getUUID(KeyValue.Keys.USER_ID)
+        return api.updateState(UpdateState(loc.lat, loc.lon, battery), userId, deviceId)
+    }
+
     interface NetworkApi {
         @POST("/users")
         fun register(@Body body: RegisterUserDto): Single<UserDto>
@@ -128,6 +134,14 @@ class ApiImpl @Inject constructor(
                 @Path("userId") userId: UUID,
                 @Path("deviceId") deviceId: UUID
         ): Completable
+
+        @PATCH("users/{userId}/devices/{deviceId}/state")
+        fun updateState(
+                @Body body: UpdateState,
+                @Path("userId") userId: UUID,
+                @Path("deviceId") deviceId: UUID
+        ): Completable
     }
+
 
 }
