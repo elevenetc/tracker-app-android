@@ -22,7 +22,10 @@ class TrackerMode @Inject constructor(
     private var locSub: Disposable? = null
 
     override fun start() {
-        locSub = bus.get().filter { it is Loc }.subscribe { sendLoc(it) }
+        locSub = bus.get()
+                .filter { it is Loc }
+                .cast(Loc::class.java)
+                .subscribe { sendLoc(it) }
         context.startService(Intent(context, LocationService::class.java))
     }
 
@@ -32,6 +35,8 @@ class TrackerMode @Inject constructor(
     }
 
     private fun sendLoc(loc: Loc) {
+
+
         val currentDeviceId = keyValue.getUUID(KeyValue.Keys.DEVICE_ID)
         api.postState(loc, 1.0f, currentDeviceId)
                 .subscribeOn(Schedulers.io())
